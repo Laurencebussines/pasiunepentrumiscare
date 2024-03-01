@@ -1302,7 +1302,12 @@ Te invit să faci primul pas către o viață mai sănătoasă și echilibrată.
 		</div>
 		<div class="col-xl-6 col-lg-6 col-md-6">
 			<div class="calculate-form appointment-form-3 mb-20">
-				<p><span class="wpcf7-form-control-wrap" data-name="Date"><input class="wpcf7-form-control wpcf7-date wpcf7-validates-as-required wpcf7-validates-as-date" aria-required="true" aria-invalid="false" value="Data" type="date" name="Data"></span><i class="fal fa-calendar"></i>
+				<p><span class="wpcf7-form-control-wrap" data-name="Date">
+                <input class="wpcf7-form-control wpcf7-date wpcf7-validates-as-required wpcf7-validates-as-date" 
+                       aria-required="true" aria-invalid="false" 
+                       type="date" name="Data" 
+                       min="<?php echo date('Y-m-d'); ?>"
+                       value="<?php echo date('Y-m-d'); ?>"></span><i class="fal fa-calendar"></i>
 				
 			
 			</p>
