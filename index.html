@@ -1236,23 +1236,34 @@ Te invit să faci primul pas către o viață mai sănătoasă și echilibrată.
 				</h1>
 			</div>
 			
-			           
-                     
-			
+			  <style>
+        /* Stilizare simplă */
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
 
+        /* Clasă pentru opțiunile indisponibile */
+        .indisponibil {
+            text-decoration: line-through; /* Adaugă o linie tăiată pentru a indica indisponibilitatea */
+            color: gray; /* Culorează textul în gri pentru a indica indisponibilitatea */
+        }
+    </style>           
+                     
 	
 	
-	         
-	
-	<div class="container mt-5">
+
+<div class="container mt-5">
     <form class="row g-3" action="https://formsubmit.co/pasiunepentrumiscare@yahoo.com" method="POST">
 
         <input type="text" name="_honey" style="display: none;">
-
         <input type="hidden" name="_captcha" value="false">
-
         <input type="hidden" name="_next" value="https://pasiunepentrumiscare.com/">
 
+
+	
+	         
+	 
 
 
 
@@ -1276,19 +1287,54 @@ Te invit să faci primul pas către o viață mai sănătoasă și echilibrată.
 			</div>
 		</div>
 		<div class="col-xl-6 col-lg-6 col-md-6">
-			<p><span class="wpcf7-form-control-wrap" data-name="Services"><select class="wpcf7-form-control wpcf7-select wpcf7-validates-as-required" aria-required="true" aria-invalid="false" name="Servicii"><option value="Services">Servicii</option><option value="Physical Therapy">Terapie Manuală Ortopedică</option><option value="Online Consultation">Masaj Terapeutic</option><option value="Sports Massage">Masaj Deep Tissue</option><option value="Dry Needling">Masaj Sportiv</option><option value="Strapping/K-Tapping">Masaj cu ventuze</option><option value="Dry Needling">Masaj de relaxare</option></select></span>
+			<p><span class="wpcf7-form-control-wrap" data-name="Services"required>
+	
+		   <select name="orar" id="orarSelect" required>
+		<option value="Services" disabled selected>Servicii</option>		<option value="Physical Therapy">Terapie Manuală Ortopedică</option>
+		<option value="Online Consultation">Masaj Terapeutic</option>
+		<option value="Sports Massage">Masaj Deep Tissue</option>
+		<option value="Dry Needling">Masaj Sportiv</option>
+		<option value="Strapping/K-Tapping">Masaj cu ventuze</option>
+		<option value="Dry Needling">Masaj de relaxare</option>
+		required
+		</select></span>
 			</p>
 		</div>
 		<div class="col-xl-6 col-lg-6 col-md-6">
 			<div class="calculate-form appointment-form-3 mb-20">
 				<p><span class="wpcf7-form-control-wrap" data-name="Date"><input class="wpcf7-form-control wpcf7-date wpcf7-validates-as-required wpcf7-validates-as-date" aria-required="true" aria-invalid="false" value="Data" type="date" name="Data"></span><i class="fal fa-calendar"></i>
-				</p>
+				
+			
+			</p>
 			</div>
 		</div>
 		<div class="col-xl-6 col-lg-6 col-md-6">
-			<div class="calculate-form appointment-form-3 mb-20">
-				<p><span class="wpcf7-form-control-wrap" data-name="Addtime"><input size="40" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required" aria-required="true" aria-invalid="false" placeholder="Porgramează ora" value="" type="text" name="Ora"></span><i class="fal fa-clock"></i>
-				</p>
+			<p><span class="wpcf7-form-control-wrap" data-name="Services">
+   
+            
+            <select name="orar" id="orarSelect" required>
+                <option value="" disabled selected>Selectează ora</option>
+                <option value="12:00 - 15:00" id="opt1">17:00 - 18:00</option>
+                <option value="15:00 - 18:00" id="opt2">18:00 - 19:00</option>
+                <option value="18:00 - 21:00" id="opt3">19:00 - 20:00</option>
+                <option value="15:00 - 18:00" id="opt2">20:00 - 21:00</option>
+         
+
+        </select></span>
+			</p>
+		</div>
+		<div class="col-xl-6 col-lg-6 col-md-6">
+			<div class="calculate-form appointment-form-3 mb-20"><i class="fal fa-clock"></i>
+                <select 
+                    class="custom-select form-control" 
+                    name="Durata" 
+                    id="durationSelect"
+                >
+                    <option value="60">60 minute</option>
+                    <option value="80">80 minute</option>
+<i class="fal fa-calendar"></i>
+                </select>
+            </p>
 			</div>
 		</div>
 		<div class="col-xl-12">
@@ -1302,7 +1348,51 @@ Te invit să faci primul pas către o viață mai sănătoasă și echilibrată.
 		
 		
 		
-		
+		<script>
+    function trimiteProgramare() {
+        var form = document.querySelector('.row.g-3');
+        var orarSelectat = form.elements['orar'].value;
+
+        // Verifică dacă orarul este deja programat
+        if (!localStorage.getItem(orarSelectat)) {
+            // Salvează în localStorage pentru a bloca orarul
+            localStorage.setItem(orarSelectat, true);
+
+            // Trimite formularul sau salvează în baza de date, în funcție de necesități
+            form.submit();
+
+            // Resetare formular
+            form.reset();
+
+            // Dezactivează orarul după 24 de ore
+            setTimeout(function() {
+                localStorage.removeItem(orarSelectat);
+            }, 24 * 60 * 60 * 1000);
+
+            // Actualizează aspectul opțiunilor în dropdown
+            actualizeazaAspectDropdown(orarSelectat);
+        } else {
+            alert('Acest orar este deja programat.');
+        }
+    }
+
+    function actualizeazaAspectDropdown(orar) {
+        var dropdown = document.getElementById('orarSelect');
+        var optiuni = dropdown.options;
+
+        for (var i = 0; i < optiuni.length; i++) {
+            if (optiuni[i].value === orar) {
+                optiuni[i].disabled = true;
+                optiuni[i].classList.add('indisponibil');
+            }
+        }
+    }
+</script>
+
+
+
+
+
 		
 		
 		
@@ -2128,3 +2218,9 @@ var wpformsElementorVars = {"captcha_provider":"recaptcha","recaptcha_type":"v2"
     
 
 </body></html>
+
+
+
+
+
+<i class="fal fa-clock"></i>
